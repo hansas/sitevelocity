@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SiteVelocity" default="dist" basedir=".">
+    <description>Builds, tests, and runs the project SiteVelocity.</description>
+    <property name="javac.target" value="6" />
+    <property name="javac.debug" value="true" />
+    <property name="jar.compress" value="" />
+    <property name="src.dir" value="${basedir}/src" />
+    <property name="build.dir" value="${basedir}/build" />
+    <property name="build.classes.dir" value="${build.dir}/classes" />
+    <property name="web.dir" value="${basedir}/web" />
+    <property name="web.lib.dir" value="${basedir}/web/WEB-INF/lib" />
+    <property name="lib.dir" value="${basedir}/lib" />
+    <property name="version-number" value="3" />
+    <property name="sitevelocity.jar" value="sitevelocity-${version-number}.jar"/>
+    <property name="nav.jar" value="sitevelocity-navigation.jar" />
+
+    <import file="navigation-generator.xml" />
+
+    <path id="project.class.path">
+        <pathelement location="${lib.dir}/${nav.jar}" />
+        <pathelement location="${lib.dir}/servlet-api.jar"/>
+        <pathelement location="${lib.dir}/xbean.jar" />
+        <pathelement location="${lib.dir}/jsr173_1.0_api.jar" />
+        <pathelement location="${web.lib.dir}/commons-beanutils-1.8.2.jar"/>
+        <pathelement location="${web.lib.dir}/commons-collections-3.2.1.jar"/>
+        <pathelement location="${web.lib.dir}/commons-digester-1.8.jar"/>
+        <pathelement location="${web.lib.dir}/commons-lang-2.4.jar"/>
+        <pathelement location="${web.lib.dir}/commons-logging-1.1.jar"/>
+        <pathelement location="${web.lib.dir}/sitemesh-2.4.2.jar"/>
+        <pathelement location="${web.lib.dir}/velocity-1.6.3-dep.jar"/>
+        <pathelement location="${web.lib.dir}/velocity-tools-view-1.4.jar"/>
+        <pathelement location="${web.lib.dir}/${nav.jar}"/>
+        <pathelement path="${java.class.path}"/>
+    </path>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${build.classes.dir}" />
+    </target>
+
+    <target name="compile" depends="clean, init" description="Compile project.">
+        <javac destdir="${build.classes.dir}" srcdir="${src.dir}" target="${javac.target}"
+               debug="${javac.debug}" failonerror="true" >
+            <classpath refid="project.class.path" />
+        </javac>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.dir}">
+                <include name="multilang.properties" />
+                <include name="sitevelocity.properties"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="run">
+    </target>
+
+    <target name="deploy">
+    </target>
+
+    <target name="javadoc">
+    </target>
+
+    <target name="test">
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.classes.dir}" failonerror="false" />
+        <delete file="${web.lib.dir}/${sitevelocity.jar}" failonerror="false" />
+    </target>
+
+    <!-- export sitevelocity jar. -->
+    <target name="dist" depends="compile">
+        <jar compress="${jar.compress}" jarfile="${web.lib.dir}/${sitevelocity.jar}">
+            <fileset dir="${build.classes.dir}">
+                <include name="org/**/*.class"/>
+                <include name="multilang.properties"/>
+                <include name="sitevelocity.properties"/>
+            </fileset>
+            <fileset dir="${basedir}">
+                <include name="LICENSE.txt"/>
+                <include name="README.txt"/>
+            </fileset>
+        </jar>
+    </target>
+</project>
