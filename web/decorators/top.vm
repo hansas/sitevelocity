@@ -1,0 +1,7 @@
+
+<div>
+    <div id="site_title">
+        <a href="$link.setURI("/index.vm")">$siteName</a>
+    </div>
+    <div id="site_description">$siteDesc</div>
+</div>

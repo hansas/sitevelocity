@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="navigation-generator" default="generate" basedir=".">
+    <property name="nav.lib.dir" value="${basedir}/lib/" />
+    <property name="nav.dest.dir" value="${basedir}/lib/" />
+    <property name="nav.dest.file" value="sitevelocity-navigation.jar" />
+
+    <path id="nav.class.path">
+        <pathelement path="${nav.lib.dir}/xbean.jar"/>
+        <pathelement path="${nav.lib.dir}/jsr173_1.0_api.jar"/>
+    </path>
+
+    <target name="clean-nav">
+        <delete file="${nav.dest.dir}/${nav.dest.file}" quiet="true"/>
+    </target>
+
+    <target name="generate" depends="clean-nav">
+        <taskdef name="xmlbeans" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpathref="nav.class.path"/>
+        <xmlbeans schema="${basedir}/src/navigation-rule.xsd" destfile="${nav.dest.dir}/${nav.dest.file}"
+                  classpathref="nav.class.path" javasource="6"
+                  failonerror="false" quiet="true">
+            <fileset dir="${basedir}/src" includes="**/*.xsdconfig"/>
+        </xmlbeans>
+    </target>
+</project>
