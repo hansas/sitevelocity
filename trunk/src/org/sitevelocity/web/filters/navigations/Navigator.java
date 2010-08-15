@@ -16,7 +16,6 @@
  */
 package org.sitevelocity.web.filters.navigations;
 
-import java.util.List;
 import org.sitevelocity.exceptions.NotMatchedException;
 import org.sitevelocity.utils.SiteVelocityLogger;
 import org.sitevelocity.utils.SiteVelocityUtil;
@@ -31,17 +30,17 @@ public class Navigator {
 
     private static final Navigator INSTANCE = new Navigator();
     private URLRewriter defaultURLRewriter;
-    private SitevelocityConfigNodeDocument original;
+    private SitevelocityConfigDocument original;
 
     private Navigator() {
         try {
-            this.original = SitevelocityConfigNodeDocument.Factory.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("/navigation-rule.xml"));
+            this.original = SitevelocityConfigDocument.Factory.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("/navigation-rule.xml"));
         } catch (Throwable ex) {
             SiteVelocityLogger.getLogger(Navigator.class.getName()).logError("Error when parsing navigation-rule.xml", ex);
             throw new RuntimeException("Can't parse navigation-rule.xml.", ex);
         }
 
-        String urlRewriter = this.original.getSitevelocityConfigNode().getUrlWriter();
+        String urlRewriter = this.original.getSitevelocityConfig().getUrlWriter();
         try {
             this.defaultURLRewriter = (URLRewriter) Thread.currentThread().getContextClassLoader().loadClass(urlRewriter).newInstance();
         } catch (Throwable ex) {
@@ -65,10 +64,10 @@ public class Navigator {
         }
 
         if (this.defaultURLRewriter != null && this.original != null) {
-            NavigationRule[] rules = this.original.getSitevelocityConfigNode().getNavigationRuleNodeArray();
+            NavigationRule[] rules = this.original.getSitevelocityConfig().getNavigationRuleArray();
             for (NavigationRule rule : rules) {
                 URLRewriter rewriter = this.getURLRewriter(rule);
-                if (rewriter.isMatched(rule.getFromViewIdNode().toString(), requestURL)) {
+                if (rewriter.isMatched(rule.getFromViewId().toString(), requestURL)) {
                     return rule;
                 }
             }
@@ -88,7 +87,7 @@ public class Navigator {
             throw new NotMatchedException("No Next View can be found for this URL ");
         }
 
-        NavigationCase[] cases = mappedNav.getNavigationCaseNodeArray();
+        NavigationCase[] cases = mappedNav.getNavigationCaseArray();
         NavigationCase defaultCase = null;
         if (cases != null && cases.length > 0) {
             for (NavigationCase c : cases) {
@@ -104,7 +103,7 @@ public class Navigator {
             return defaultCase.getToViewId();
         }
         throw new NotMatchedException("No Next View configured for this URL : "
-                + mappedNav.getFromViewIdNode().toString());
+                + mappedNav.getFromViewId().toString());
     }
 
     private URLRewriter getURLRewriter(NavigationRule nav) {
@@ -122,14 +121,14 @@ public class Navigator {
     public String getPathTranslated(NavigationRule mappedNav, String fromURL) throws NotMatchedException {
         URLRewriter rewriter = this.getURLRewriter(mappedNav);
 
-        return rewriter.translate(mappedNav.getFromViewIdNode().toString(), mappedNav.getFromViewIdNode().getMappingTo(), fromURL);
+        return rewriter.translate(mappedNav.getFromViewId().toString(), mappedNav.getFromViewId().getMappingTo(), fromURL);
     }
 
     /**
      * get original xml object.
      * @return
      */
-    protected SitevelocityConfigNodeDocument getXmlObject() {
+    protected SitevelocityConfigDocument getXmlObject() {
         return this.original;
     }
 }
