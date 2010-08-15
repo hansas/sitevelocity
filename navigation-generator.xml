@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="navigation-generator" default="generate" basedir=".">
+<project name="navigation-generator" default="gen-navigation" basedir=".">
     <property name="nav.lib.dir" value="${basedir}/lib/" />
     <property name="nav.dest.dir" value="${basedir}/lib/" />
     <property name="nav.dest.file" value="sitevelocity-navigation.jar" />
@@ -14,7 +14,7 @@
         <delete file="${nav.dest.dir}/${nav.dest.file}" quiet="true"/>
     </target>
 
-    <target name="generate" depends="clean-nav">
+    <target name="gen-navigation" depends="clean-nav">
         <taskdef name="xmlbeans" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpathref="nav.class.path"/>
         <xmlbeans schema="${basedir}/src/navigation-rule.xsd" destfile="${nav.dest.dir}/${nav.dest.file}"
                   classpathref="nav.class.path" javasource="6"
