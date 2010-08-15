@@ -1,7 +1,6 @@
 <xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
 
-  <!--not take effect at all-->
-  <xb:namespace uri="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+  <xb:namespace uri="http://web.sitevelocity.org/filters/navigations">
     <xb:package>org.sitevelocity.web.filters.navigations</xb:package>
   </xb:namespace>
 
