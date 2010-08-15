@@ -19,7 +19,6 @@
         <xmlbeans schema="${basedir}/src/navigation-rule.xsd" destfile="${nav.dest.dir}/${nav.dest.file}"
                   classpathref="nav.class.path" javasource="6"
                   failonerror="false" quiet="true">
-            <fileset dir="${basedir}/src" includes="**/*.xsdconfig"/>
         </xmlbeans>
     </target>
 </project>
