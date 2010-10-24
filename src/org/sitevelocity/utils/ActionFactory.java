@@ -47,7 +47,7 @@ public class ActionFactory {
         SiteAction ac = actionsMap.get(actionName);
         if (ac == null) {
             try {
-                ac = (SiteAction)Thread.currentThread().getContextClassLoader().loadClass(actionName).newInstance();
+                ac = (SiteAction)ActionFactory.class.getClassLoader().loadClass(actionName).newInstance();
                 actionsMap.put(actionName, ac);
             } catch (InstantiationException e) {
               throw new ActionNotFoundException("Action [" + actionName + "] is not defined correctly", e);

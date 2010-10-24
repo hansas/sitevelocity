@@ -59,6 +59,11 @@ public class SiteVelocityServletRequest extends HttpServletRequestWrapper {
         }
     }
 
+    /**
+     * copied from javax.servlet.http.HttpUtils.java
+     * @param s
+     * @return
+     */
     private Hashtable parseQueryString(String s) {
         String valArray[] = null;
 
@@ -93,6 +98,7 @@ public class SiteVelocityServletRequest extends HttpServletRequestWrapper {
     }
 
     /**
+     * copied from javax.servlet.http.HttpUtils.java
      * Parse a name in the query string.
      */
     private String parseName(String s, StringBuffer sb) {
