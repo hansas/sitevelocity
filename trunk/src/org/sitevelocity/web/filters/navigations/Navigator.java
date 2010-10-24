@@ -34,7 +34,7 @@ public class Navigator {
 
     private Navigator() {
         try {
-            this.original = SitevelocityConfigDocument.Factory.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("/navigation-rule.xml"));
+            this.original = SitevelocityConfigDocument.Factory.parse(Navigator.class.getClassLoader().getResourceAsStream("navigation-rule.xml"));
         } catch (Throwable ex) {
             SiteVelocityLogger.getLogger(Navigator.class.getName()).logError("Error when parsing navigation-rule.xml", ex);
             throw new RuntimeException("Can't parse navigation-rule.xml.", ex);
@@ -42,7 +42,7 @@ public class Navigator {
 
         String urlRewriter = this.original.getSitevelocityConfig().getUrlWriter();
         try {
-            this.defaultURLRewriter = (URLRewriter) Thread.currentThread().getContextClassLoader().loadClass(urlRewriter).newInstance();
+            this.defaultURLRewriter = (URLRewriter) Navigator.class.getClassLoader().loadClass(urlRewriter).newInstance();
         } catch (Throwable ex) {
             SiteVelocityLogger.getLogger(Navigator.class.getName()).logError("No top level URL Rewriter defined in navigation-rule.xml", ex);
             throw new RuntimeException("Can't instantiate default URLRewriter.", ex);

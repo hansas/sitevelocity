@@ -32,7 +32,7 @@ public class SiteVelocityConfiguration {
 
     private SiteVelocityConfiguration() {
         resource = new Properties();
-        InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("/sitevelocity.properties");
+        InputStream in = SiteVelocityConfiguration.class.getClassLoader().getResourceAsStream("/sitevelocity.properties");
         if (in != null) {
             try {
                 resource.load(in);
