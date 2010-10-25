@@ -70,4 +70,7 @@ public class SiteVelocityConfiguration {
         return resource.getProperty("default.date.format", "yyyy-MM-dd hh:mm:ss");
     }
 
+    public String getProperty(String key) {
+        return resource.getProperty(key);
+    }
 }
