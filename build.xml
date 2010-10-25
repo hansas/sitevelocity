@@ -83,7 +83,7 @@
     </target>
 
     <!-- export sitevelocity jar. -->
-    <target name="dist" depends="compile, javadoc">
+    <target name="dist" depends="compile">
         <jar compress="${jar.compress}" jarfile="${dist.dir}/${sitevelocity.jar}">
             <manifest>
                 <attribute name="version-number" value="${version-number}" />
